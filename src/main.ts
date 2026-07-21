@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { SandboxScene } from './scenes/SandboxScene';
+import { TitleScene } from './scenes/TitleScene';
 import './style.css';
 
 const game = new Phaser.Game({
@@ -22,7 +23,7 @@ const game = new Phaser.Game({
     antialias: true,
     pixelArt: false,
   },
-  scene: [SandboxScene],
+  scene: [TitleScene, SandboxScene],
 });
 
 document.querySelector<HTMLButtonElement>('#reset-button')?.addEventListener('click', () => {

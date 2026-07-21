@@ -41,6 +41,13 @@ body {
   font: inherit;
   font-size: 12px;
   cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#reset-button.is-visible {
+  visibility: visible;
+  opacity: 1;
 }
 
 #reset-button:hover,

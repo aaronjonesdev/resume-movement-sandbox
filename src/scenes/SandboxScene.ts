@@ -17,6 +17,7 @@ export class SandboxScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBackgroundColor('#ffffff');
+    document.querySelector<HTMLButtonElement>('#reset-button')?.classList.add('is-visible');
     this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
 
     this.groundLine = this.add.graphics();
@@ -32,6 +33,7 @@ export class SandboxScene extends Phaser.Scene {
     this.game.events.on('reset-player', this.resetPlayer, this);
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      document.querySelector<HTMLButtonElement>('#reset-button')?.classList.remove('is-visible');
       this.scale.off(Phaser.Scale.Events.RESIZE, this.handleResize, this);
       this.game.events.off('reset-player', this.resetPlayer, this);
     });
