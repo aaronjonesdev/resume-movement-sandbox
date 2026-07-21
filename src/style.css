@@ -28,7 +28,8 @@ body {
   display: block;
 }
 
-#reset-button {
+#reset-button,
+#skip-level-button {
   position: fixed;
   top: 14px;
   right: 14px;
@@ -45,13 +46,20 @@ body {
   opacity: 0;
 }
 
-#reset-button.is-visible {
+#skip-level-button {
+  right: 76px;
+}
+
+#reset-button.is-visible,
+#skip-level-button.is-visible {
   visibility: visible;
   opacity: 1;
 }
 
 #reset-button:hover,
-#reset-button:focus-visible {
+#reset-button:focus-visible,
+#skip-level-button:hover,
+#skip-level-button:focus-visible {
   color: #fff;
   background: #000;
   outline: none;

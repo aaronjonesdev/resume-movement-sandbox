@@ -31,3 +31,7 @@ const game = new Phaser.Game({
 document.querySelector<HTMLButtonElement>('#reset-button')?.addEventListener('click', () => {
   game.events.emit('reset-player');
 });
+
+document.querySelector<HTMLButtonElement>('#skip-level-button')?.addEventListener('click', () => {
+  game.events.emit('skip-level');
+});

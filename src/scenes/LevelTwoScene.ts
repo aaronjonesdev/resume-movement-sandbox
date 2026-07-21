@@ -41,6 +41,7 @@ export class LevelTwoScene extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor('#ffffff');
     document.querySelector<HTMLButtonElement>('#reset-button')?.classList.add('is-visible');
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.add('is-visible');
 
     this.environment = new DrivingEnvironment(this);
     this.createInput();
@@ -59,6 +60,7 @@ export class LevelTwoScene extends Phaser.Scene {
 
     this.scale.on(Phaser.Scale.Events.RESIZE, this.handleResize, this);
     this.game.events.on('reset-player', this.restartLevel, this);
+    this.game.events.on('skip-level', this.skipToMission, this);
     this.input.keyboard?.on('keydown-ENTER', this.continueToLevelThree, this);
     this.input.keyboard?.on('keydown-SPACE', this.retryAfterFailure, this);
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdown, this);
@@ -171,6 +173,7 @@ export class LevelTwoScene extends Phaser.Scene {
     if (this.state !== 'success') return;
     this.state = 'complete';
     this.successPanel.setVisible(false);
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
     this.heading.setAlpha(0.22);
     this.missionPanel.setVisible(true).setAlpha(0);
     const result = this.missionPanel.getByName('result') as Phaser.GameObjects.Text;
@@ -314,10 +317,29 @@ export class LevelTwoScene extends Phaser.Scene {
     if (this.state === 'failed') this.scene.restart();
   }
 
+  private skipToMission(): void {
+    if (this.state === 'complete') return;
+    this.tweens.killAll();
+    this.state = 'complete';
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
+    this.warning.setVisible(false);
+    this.countdownText.setVisible(false);
+    this.briefing.setVisible(false);
+    this.failurePanel.setVisible(false);
+    this.successPanel.setVisible(false);
+    this.heading.setAlpha(0.22);
+    const result = this.missionPanel.getByName('result') as Phaser.GameObjects.Text;
+    result.setText(`Test Result: SKIPPED  •  Obstacle Contacts: ${this.hits} / ${MAX_HITS}`);
+    this.missionPanel.setVisible(true).setAlpha(0);
+    this.tweens.add({ targets: this.missionPanel, alpha: 1, duration: 240 });
+  }
+
   private shutdown(): void {
     document.querySelector<HTMLButtonElement>('#reset-button')?.classList.remove('is-visible');
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
     this.scale.off(Phaser.Scale.Events.RESIZE, this.handleResize, this);
     this.game.events.off('reset-player', this.restartLevel, this);
+    this.game.events.off('skip-level', this.skipToMission, this);
     this.input.keyboard?.off('keydown-ENTER', this.continueToLevelThree, this);
     this.input.keyboard?.off('keydown-SPACE', this.retryAfterFailure, this);
     this.tweens.killAll();

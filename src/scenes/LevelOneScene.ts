@@ -25,6 +25,7 @@ export class LevelOneScene extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor('#ffffff');
     document.querySelector<HTMLButtonElement>('#reset-button')?.classList.add('is-visible');
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.add('is-visible');
 
     this.environment = new CableTechEnvironment(this);
     this.ground = this.add.rectangle(0, 0, 1, 2, 0xffffff, 0);
@@ -55,12 +56,15 @@ export class LevelOneScene extends Phaser.Scene {
 
     this.scale.on(Phaser.Scale.Events.RESIZE, this.handleResize, this);
     this.game.events.on('reset-player', this.restartLevel, this);
+    this.game.events.on('skip-level', this.skipToMission, this);
     this.input.keyboard?.on('keydown-ENTER', this.continueToLevelTwo, this);
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       document.querySelector<HTMLButtonElement>('#reset-button')?.classList.remove('is-visible');
+      document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
       this.scale.off(Phaser.Scale.Events.RESIZE, this.handleResize, this);
       this.game.events.off('reset-player', this.restartLevel, this);
+      this.game.events.off('skip-level', this.skipToMission, this);
       this.input.keyboard?.off('keydown-ENTER', this.continueToLevelTwo, this);
     });
   }
@@ -148,6 +152,7 @@ export class LevelOneScene extends Phaser.Scene {
     this.climbing = false;
     this.player.setClimbing(true);
     this.prompt.setVisible(false);
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
     this.levelHeading.setAlpha(0.25);
     this.missionPanel.setVisible(true).setAlpha(0);
     this.tweens.add({ targets: this.missionPanel, alpha: 1, duration: 220 });
@@ -159,7 +164,7 @@ export class LevelOneScene extends Phaser.Scene {
     const mission = this.makeCenteredText(-100, 'MISSION COMPLETE', 24, '#000000');
     const company = this.makeCenteredText(-59, 'COX COMMUNICATIONS', 18, '#000000');
     const role = this.makeCenteredText(-25, 'Cable Technician / Sales Representative', 14, '#000000');
-    const dates = this.makeCenteredText(7, '2017–2019', 14, '#000000');
+    const dates = this.makeCenteredText(7, '03/2017 – 10/2019', 14, '#000000');
     const detail = this.makeCenteredText(
       52,
       'Installed and configured residential and business\nnetwork infrastructure.',
@@ -218,6 +223,10 @@ export class LevelOneScene extends Phaser.Scene {
 
   private restartLevel(): void {
     this.scene.restart();
+  }
+
+  private skipToMission(): void {
+    if (!this.completed) this.completeMission();
   }
 
   private continueToLevelTwo(): void {

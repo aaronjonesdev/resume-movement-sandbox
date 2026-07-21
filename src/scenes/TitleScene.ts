@@ -15,6 +15,7 @@ export class TitleScene extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor('#ffffff');
     document.querySelector<HTMLButtonElement>('#reset-button')?.classList.remove('is-visible');
+    document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
 
     this.content = this.add.container(0, 0);
     this.drawFrame();
