@@ -78,6 +78,10 @@ export class LevelOneScene extends Phaser.Scene {
     } else if (this.environment.isAtLadderBase(this.player.x, this.player.y) && intent.vertical < 0) {
       this.climbing = true;
       this.player.setClimbing(true);
+      this.player.alignForClimb(
+        this.environment.ladderXAt(this.environment.climbBottomY),
+        this.environment.climbBottomY,
+      );
       this.updateClimbing(intent.vertical, delta);
     } else {
       this.player.updateFromIntent(intent, delta);
@@ -100,13 +104,20 @@ export class LevelOneScene extends Phaser.Scene {
   }
 
   private updateClimbing(direction: -1 | 0 | 1, delta: number): void {
+    if (direction === 0) {
+      this.player.updateClimbingPose(direction, delta);
+      return;
+    }
+
     const nextY = Phaser.Math.Clamp(
       this.player.y + direction * CLIMB_SPEED * (delta / 1000),
       this.environment.climbTopY,
       this.environment.climbBottomY,
     );
 
-    this.player.alignForClimb(this.environment.ladderXAt(nextY), nextY);
+    if (nextY !== this.player.y) {
+      this.player.alignForClimb(this.environment.ladderXAt(nextY), nextY);
+    }
     this.player.updateClimbingPose(direction, delta);
 
     if (nextY >= this.environment.climbBottomY && direction > 0) {

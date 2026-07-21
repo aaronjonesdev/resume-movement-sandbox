@@ -70,9 +70,19 @@ export class StickFigurePlayer extends Phaser.GameObjects.Container {
 
   setClimbing(climbing: boolean): void {
     this.climbing = climbing;
-    this.body.setAllowGravity(!climbing);
     this.body.setAcceleration(0, 0);
     this.body.setVelocity(0, 0);
+
+    if (climbing) {
+      this.body.setAllowGravity(false);
+      this.body.moves = false;
+      this.body.checkCollision.none = true;
+    } else {
+      this.body.reset(this.x, this.y);
+      this.body.moves = true;
+      this.body.checkCollision.none = false;
+      this.body.setAllowGravity(true);
+    }
   }
 
   updateClimbingPose(direction: -1 | 0 | 1, deltaMs: number): void {
