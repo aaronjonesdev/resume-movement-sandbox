@@ -321,7 +321,10 @@ export class LevelThreeScene extends Phaser.Scene {
   }
 
   private continueJourney(): void {
-    if (this.state === 'complete') this.scene.start('title');
+    if (this.state !== 'complete') return;
+    this.state = 'cinematic';
+    this.cameras.main.fadeOut(300, 255, 255, 255);
+    this.time.delayedCall(320, () => this.scene.start('final'));
   }
 
   private skipToMission(): void {

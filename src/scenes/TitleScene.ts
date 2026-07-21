@@ -13,6 +13,7 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.starting = false;
     this.cameras.main.setBackgroundColor('#ffffff');
     document.querySelector<HTMLButtonElement>('#reset-button')?.classList.remove('is-visible');
     document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
