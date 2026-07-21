@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { LevelOneScene } from './scenes/LevelOneScene';
 import { LevelTwoScene } from './scenes/LevelTwoScene';
+import { LevelThreeScene } from './scenes/LevelThreeScene';
 import { TitleScene } from './scenes/TitleScene';
 import './style.css';
 
@@ -24,7 +25,7 @@ const game = new Phaser.Game({
     antialias: true,
     pixelArt: false,
   },
-  scene: [TitleScene, LevelOneScene, LevelTwoScene],
+  scene: [TitleScene, LevelOneScene, LevelTwoScene, LevelThreeScene],
 });
 
 document.querySelector<HTMLButtonElement>('#reset-button')?.addEventListener('click', () => {
