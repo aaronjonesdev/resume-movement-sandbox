@@ -137,7 +137,7 @@ export class TitleScene extends Phaser.Scene {
       scaleY: 0.94,
       duration: 70,
       yoyo: true,
-      onComplete: () => this.scene.start('sandbox'),
+      onComplete: () => this.scene.start('level-one'),
     });
   }
 

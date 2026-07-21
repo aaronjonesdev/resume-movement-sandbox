@@ -16,6 +16,7 @@ export class StickFigurePlayer extends Phaser.GameObjects.Container {
   private readonly accessories: PlayerAccessory[] = [];
   private facing: -1 | 1 = 1;
   private walkCycle = 0;
+  private climbing = false;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y);
@@ -39,6 +40,7 @@ export class StickFigurePlayer extends Phaser.GameObjects.Container {
   }
 
   updateFromIntent(intent: PlayerIntent, deltaMs: number): void {
+    if (this.climbing) return;
     const grounded = this.body.blocked.down || this.body.touching.down;
 
     if (intent.direction !== 0) {
@@ -66,10 +68,29 @@ export class StickFigurePlayer extends Phaser.GameObjects.Container {
     this.accessories.forEach((accessory) => accessory.updatePose(pose));
   }
 
+  setClimbing(climbing: boolean): void {
+    this.climbing = climbing;
+    this.body.setAllowGravity(!climbing);
+    this.body.setAcceleration(0, 0);
+    this.body.setVelocity(0, 0);
+  }
+
+  updateClimbingPose(direction: -1 | 0 | 1, deltaMs: number): void {
+    this.body.setVelocity(0, 0);
+    if (direction !== 0) this.walkCycle += (deltaMs / 1000) * 9;
+    this.drawFigure(direction === 0 ? 0 : Math.sin(this.walkCycle), false);
+  }
+
+  alignForClimb(x: number, y: number): void {
+    this.setPosition(x, y);
+    this.body.updateFromGameObject();
+  }
+
   resetTo(x: number, y: number): void {
     this.setPosition(x, y);
     this.body.reset(x, y);
     this.body.setAcceleration(0, 0);
+    this.setClimbing(false);
     this.walkCycle = 0;
     this.drawFigure(0, false);
   }
