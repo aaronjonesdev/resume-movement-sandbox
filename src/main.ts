@@ -1,8 +1,10 @@
 import Phaser from 'phaser';
+import { BootScene } from './scenes/BootScene';
 import { FinalScene } from './scenes/FinalScene';
 import { LevelOneScene } from './scenes/LevelOneScene';
 import { LevelTwoScene } from './scenes/LevelTwoScene';
 import { LevelThreeScene } from './scenes/LevelThreeScene';
+import { MusicScene } from './scenes/MusicScene';
 import { TitleScene } from './scenes/TitleScene';
 import './style.css';
 
@@ -26,7 +28,7 @@ const game = new Phaser.Game({
     antialias: true,
     pixelArt: false,
   },
-  scene: [TitleScene, LevelOneScene, LevelTwoScene, LevelThreeScene, FinalScene],
+  scene: [BootScene, MusicScene, TitleScene, LevelOneScene, LevelTwoScene, LevelThreeScene, FinalScene],
 });
 
 document.querySelector<HTMLButtonElement>('#reset-button')?.addEventListener('click', () => {

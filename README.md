@@ -27,6 +27,11 @@ Open the local URL printed by Vite, normally `http://localhost:5173`. Press `Con
 - Move: `A` / `D` or Left / Right Arrow
 - Jump: `W`, Up Arrow, or Space
 - Reset: the button in the top-right corner
+- Background music: press `M` to mute or unmute
+
+## Music license
+
+“Coffee House Bump” by OatCog is available under the CC0 1.0 Universal public-domain dedication from [OpenGameArt](https://opengameart.org/content/coffee-house-bump). Attribution is not required. The repository copy is converted from the original WAV to a 128 kbps MP3 for web delivery.
 
 ## Production build
 

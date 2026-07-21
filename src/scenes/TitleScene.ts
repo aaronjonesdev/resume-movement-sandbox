@@ -17,6 +17,7 @@ export class TitleScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#ffffff');
     document.querySelector<HTMLButtonElement>('#reset-button')?.classList.remove('is-visible');
     document.querySelector<HTMLButtonElement>('#skip-level-button')?.classList.remove('is-visible');
+    document.querySelector<HTMLElement>('#music-status')?.classList.remove('is-visible');
 
     this.content = this.add.container(0, 0);
     this.drawFrame();
@@ -139,7 +140,10 @@ export class TitleScene extends Phaser.Scene {
       scaleY: 0.94,
       duration: 70,
       yoyo: true,
-      onComplete: () => this.scene.start('level-one'),
+      onComplete: () => {
+        document.querySelector<HTMLElement>('#music-status')?.classList.add('is-visible');
+        this.scene.start('level-one');
+      },
     });
   }
 
