@@ -1,6 +1,10 @@
 # Resume Movement Sandbox
 
-A first technical prototype for a minimalist browser-based interactive resume. This version contains only a graphics-primitive stick figure, movement, jumping, gravity, collision, and reset behavior.
+**[Play in browser](https://resume-movement-sandbox.vercel.app/)**
+
+Desktop only. A keyboard is required to play.
+
+An interactive résumé built with Phaser 3, TypeScript, and Vite. Play through three keyboard-controlled levels inspired by cable installation, autonomous vehicle testing, and data center operations.
 
 ## Run locally
 
@@ -27,6 +31,7 @@ Open the local URL printed by Vite, normally `http://localhost:5173`. Press `Con
 - Move: `A` / `D` or Left / Right Arrow
 - Jump: `W`, Up Arrow, or Space
 - Reset: the button in the top-right corner
+- Skip a level: select **Skip Level**
 - Background music: press `M` to mute or unmute
 
 ## Music license
@@ -47,4 +52,4 @@ The production files are written to `dist/`.
 - `SandboxScene` owns the ground, collision, resizing, and reset flow.
 - `PlayerControls` translates supported keys into a small intent object.
 - `StickFigurePlayer` owns physics, movement, procedural drawing, and walking poses.
-- `PlayerAccessory` is the extension point for future hats, headphones, vests, and tools; no accessories are enabled in this prototype.
+- `PlayerAccessory` is the extension point for props such as the hard hat and ladder.
